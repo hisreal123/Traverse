@@ -13,7 +13,7 @@ import { UserDetails } from "@/types";
 const BaseUrl =
   process.env.AUTH_BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1/auth/";
 
-  const $http = Calls(BaseUrl);
+const $http = Calls(BaseUrl);
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const cookie = cookies();

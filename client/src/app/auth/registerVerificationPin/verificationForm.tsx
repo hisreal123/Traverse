@@ -13,8 +13,8 @@ const VerificationForm: React.FC<VerificationFormProps> = (
     target: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const { value } = target;
-    const val = value.substring(value.length - 1);
+    // const { value } = target;
+    // const val = value.substring(value.length - 1);
   };
 
   return (
