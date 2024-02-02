@@ -17,7 +17,9 @@ const OTPModal = () => {
   } | null>(null);
   const [isLoading] = useTransition();
 
-  const handleActivate = async () => {
+  const handleActivate = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent the default behavior of the button click
+
     try {
       const result = await activateUser(licence);
       setActivationResult(result);
@@ -73,14 +75,13 @@ const OTPModal = () => {
               {/* <img src="assets/logo.svg" alt="logo" className="w-16 h-16" /> */}
             </div>
             <div className="flex items-center justify-center w-full mt-4">
-              <Input
-                placeholder="Enter OTP"
-                value={licence}
-                onChange={(e) => setLicence(e.target.value)}
-                className="w-full"
-                id={""}
+              <label>License:</label>
+              <input
                 type="text"
-                label={"Verify Linces"}
+                value={licence}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:ring-opacity-50"
+                placeholder="License"
+                onChange={(e) => setLicence(e.target.value)}
               />
             </div>
           </div>

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../styles/globals.scss";
 import ThemeProvider from "@/context/ThemeCtx";
 import { cn } from "@/utils";
 import StateCtxProvider from "@/context/StateCtx";
+import "../styles/globals.scss"
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  // icons: "/assets/Logo_primary.svg",
   title: "Traverse",
   description: "Traverse team MVP application for Sync Hackathon",
 };

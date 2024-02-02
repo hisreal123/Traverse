@@ -5,7 +5,6 @@ import { LoginSchema } from "@/schemas";
 import * as z from "zod";
 import { cookies } from "next/headers";
 
-import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { jwtDecode } from "jwt-decode";
 import { UserDetails } from "@/types";
@@ -13,7 +12,7 @@ import { UserDetails } from "@/types";
 const BaseUrl =
   process.env.AUTH_BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1/auth/";
 
-const $http = Calls(BaseUrl);
+  const $http = Calls(BaseUrl);
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const cookie = cookies();
@@ -43,7 +42,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     console.log(data.status);
     const res = await data.json();
     if (data.status === 200 || res.ok) {
-      signIn(res.token);
       cookie.set("access_token", res.token, {
         maxAge: 60 * 60 * 1 * 1, // 1 hour
         httpOnly: true,
