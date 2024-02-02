@@ -73,9 +73,9 @@ interface ApexOptionsProps {
 export const SIDEBAR_LINKS: SidebarProps[] = [
   {
     id: 1,
-    label: "Client Dashboard",
+    label: "Create Project",
     icon: Category,
-    link: "client-dashboard",
+    link: "dashboard/createProject",
   },
 
   {
