@@ -10,9 +10,9 @@ import { jwtDecode } from "jwt-decode";
 import { UserDetails } from "@/types";
 
 const BaseUrl =
-  process.env.AUTH_BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1/auth/";
+  process.env.AUTH_BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1/auth";
 
-  const $http = Calls(BaseUrl);
+const $http = Calls(BaseUrl);
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const cookie = cookies();
@@ -26,7 +26,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   const { email, password } = validatedFields.data;
 
   try {
-    const data = await fetch(`${BaseUrl}/auth/login`, {
+    const data = await fetch(`${BaseUrl}/signin`, {
       method: "POST",
 
       headers: {
@@ -43,32 +43,34 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const res = await data.json();
     if (data.status === 200 || res.ok) {
       cookie.set("access_token", res.token, {
-        maxAge: 60 * 60 * 1 * 1, // 1 hour
+        maxAge: 60 * 60 * 24 * 1, // 1 day
         httpOnly: true,
         path: "/",
         priority: "high",
       });
-      const decodedToken = jwtDecode(res.token) as UserDetails;
-      if (decodedToken) {
-        const user = {
-          email: decodedToken.email,
-          name: decodedToken.name,
-          accountId: decodedToken.accountId,
-          role: decodedToken.role,
-        };
-        cookie.set("user", JSON.stringify(user), {
-          maxAge: 60 * 60 * 24 * 1, // 1 day
 
-          path: "/",
-          priority: "high",
-        });
-      }
-      console.log(res);
+      console.log(res.data);
+      const user = {
+        id: res.data.user._id,
+        name: res.data.user.name,
+        email: res.data.user.email,
+        companyName: res.data.user.companyName,
+        website: res.data.user.website,
+        role: res.data.user.role,
+        // createdAt: res.user.createdAt,
+      };
+
+      cookie.set("user", JSON.stringify(user), {
+        maxAge: 60 * 60 * 24 * 1, // 1 day
+        httpOnly: true,
+        path: "/",
+        priority: "high",
+      });
 
       return {
         success: "Login successful!",
         redirect: DEFAULT_LOGIN_REDIRECT,
-        user: decodedToken,
+        // user: decodedToken,
       };
     }
     if (data.status === 400) {
@@ -99,8 +101,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 };
 
 export const activateUser = async (licence: string) => {
+  console.log(licence);
   try {
-    const res = await $http.post("/activate", { licence });
+    const res = await $http.post("/activate", licence);
 
     if (res.status === 201) {
       console.log("Activation successful");

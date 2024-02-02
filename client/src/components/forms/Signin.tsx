@@ -24,9 +24,6 @@ import { cn } from "@/utils";
 import FormError from "./Error";
 import FormSuccess from "./Succes";
 import { login } from "@/app/actions/auth";
-// import { useStateCtx } from "@/context/StateContext";
-// import SocialLogin from "../auth/SocialLogin";
-// import { UserDetails } from "@/types";
 
 import { useRouter } from "next/navigation";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
@@ -63,18 +60,9 @@ const SigninForm = () => {
             setSuccess("Redirecting....");
           }, 1000);
           setTimeout(() => {
-            // router.push(DEFAULT_LOGIN_REDIRECT);
+            router.push(DEFAULT_LOGIN_REDIRECT);
           }, 2000);
         }
-        // setUser({
-        //   ...data.user,
-        //   name: getNameFromEmail(data?.user?.email!),
-        //   image:
-        //     `https://ui-avatars.com/api/?name=${data?.user
-        //       ?.email!}&background=random` ?? "/facemoji.png",
-        //   email: data?.user?.email ?? "Johndoe@fake.com",
-        // });
-        // console.log(data.user);
       });
     });
   };

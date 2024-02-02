@@ -15,9 +15,11 @@ export type RegistrationDataProps = {
 };
 
 export interface UserDetails {
-  name?: string;
-  email?: string;
-  accountId?: string;
-  role?: string;
-  image: string | StaticImport;
+  _id: string;
+  name: string;
+  email: string;
+  companyName: string;
+  website: string;
+  role: string;
+  createdAt: string;
 }

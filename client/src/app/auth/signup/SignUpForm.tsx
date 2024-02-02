@@ -6,7 +6,6 @@ import React from "react";
 import { ZodError } from "zod";
 import toast, { Toaster } from "react-hot-toast";
 import { useStateCtx } from "@/context/StateCtx";
-import OTPModal from "@/components/modals/VerifyModal";
 import { redirect } from "next/navigation";
 
 const SignUpForm: React.FC = () => {
@@ -21,7 +20,9 @@ const SignUpForm: React.FC = () => {
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const baseURL = process.env.NEXT_PUBLIC_API_KEY;
+    const baseURL =
+      process.env.AUTH_BASEURL ??
+      "https://traverse-pgpw.onrender.com/api/v1/auth";
 
     if (password !== confirmPassword) {
       toast.error("Password does't match!!");
@@ -39,12 +40,12 @@ const SignUpForm: React.FC = () => {
         confirmPassword,
       });
 
-      const response = await fetch(`${baseURL}/auth/signup`, {
+      const response = await fetch(`${baseURL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(validatedData),
       });
-
+      console.log(response);
       if (response.ok) {
         const data = await response.json();
         toast.success("Registration Sucessfull: ");
@@ -55,7 +56,6 @@ const SignUpForm: React.FC = () => {
         setWebsite(" ");
         setPassword(" ");
         setConfirmPassword(" ");
-
         redirect("/validatePin");
       } else {
         console.error("Registration failed:", response.statusText);

@@ -33,19 +33,10 @@ const registrationSchema = z.object({
       )
     ),
   website: z.string().optional(),
-  password: z
-    .string()
-    .min(5)
-    .refine((value) => {
-      if (!hasNumber(value) || !hasCapitalLetter(value)) {
-        toast.error(
-          "Password must contain at least one number and one capital letter"
-        );
-        return false;
-      }
-      return true;
-    }),
-  confirmPassword: z.string().min(8),
+    password: z.string().min(6, {
+    message: 'Password must be at least 6 characters'
+  }),
+  confirmPassword: z.string().min(6),
 });
 
 export { registrationSchema };

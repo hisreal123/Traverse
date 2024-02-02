@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { FormEvent, useState, useTransition } from "react";
 import { useStateCtx } from "@/context/StateCtx";
 import Input from "../ui/Input";
 import { cn } from "@/utils";
 import { X } from "lucide-react";
 import { activateUser } from "@/app/actions/auth";
 import Button from "../ui/Button";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const OTPModal = () => {
   const { OTPModal, setOTPModal } = useStateCtx();
@@ -16,18 +19,32 @@ const OTPModal = () => {
     error?: string;
   } | null>(null);
   const [isLoading] = useTransition();
+  const router = useRouter();
 
-  const handleActivate = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent the default behavior of the button click
+  //  const [licence, setLicence] = useState("");
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
 
     try {
-      const result = await activateUser(licence);
-      setActivationResult(result);
+      const response = await axios.post(
+        "https://traverse-pgpw.onrender.com/api/v1/auth/activate",
+        {
+          licence,
+        }
+      );
+
+      const { status, message } = response.data;
+
+      if (status === "success") {
+        toast.success(message);
+        router.push("/auth/signin");
+      } else {
+        toast.error(message);
+      }
     } catch (error) {
-      console.error("Error during activation:", error);
-      setActivationResult({
-        error: "An unexpected error occurred during activation.",
-      });
+      console.error("Error submitting form:", error);
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -56,7 +73,10 @@ const OTPModal = () => {
           )}
         >
           <div className="flex items-center justify-between w-full border-b border-[#e1e1e1] pb-4 pl-4 px-4 md:pl-8 ">
-            <h3>Verify Your Account</h3>
+            <h3>
+              Verify Your Account Please check your email and find you Lincense
+              Number
+            </h3>
             <button
               type="button"
               tabIndex={0}
@@ -75,23 +95,29 @@ const OTPModal = () => {
               {/* <img src="assets/logo.svg" alt="logo" className="w-16 h-16" /> */}
             </div>
             <div className="flex items-center justify-center w-full mt-4">
-              <label>License:</label>
-              <input
-                type="text"
-                value={licence}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:border-purple-600 focus:ring-2 focus:ring-purple-200 focus:ring-opacity-50"
-                placeholder="License"
-                onChange={(e) => setLicence(e.target.value)}
-              />
+              <form onSubmit={handleSubmit}>
+                <label className="block mb-4">
+                  <span className="text-gray-700">License:</span>
+                  <input
+                    type="text"
+                    value={licence}
+                    onChange={(e) => setLicence(e.target.value)}
+                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                    placeholder="Enter license"
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  tabIndex={0}
+                  className="bg-[#33059F] mt-1 p-2 lg:p-3 text-white font-bold  rounded-md"
+                >
+                  Activate User
+                </button>
+              </form>
             </div>
           </div>
 
-          <button
-            onClick={handleActivate}
-            className="bg-[#33059F] mt-1 p-2 lg:p-3 text-white font-bold  rounded-md"
-          >
-            Activate User
-          </button>
           {activationResult && (
             <div>
               {activationResult.success && <p>{activationResult.success}</p>}
