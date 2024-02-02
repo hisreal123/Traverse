@@ -28,7 +28,7 @@ const page = () => {
          py-7"
           >
             <Link href="/">Home</Link>
-            <Link href="/about us">About Us</Link>
+            <Link href="/about">About Us</Link>
             <Link href="/requestBeta">Request Beta</Link>
           </div>
           <hr />

@@ -86,9 +86,9 @@ export const SIDEBAR_LINKS: SidebarProps[] = [
   },
   {
     id: 3,
-    label: "Meetings",
+    label: "Timer",
     icon: Profile2User,
-    link: "Meetings",
+    link: "dashboard/timer",
   },
   {
     id: 4,

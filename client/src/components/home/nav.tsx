@@ -17,9 +17,6 @@ export const Nav = () => {
           />
         </div>
         <div className="md:text-base text-xs font-semibold flex items-center justify-between md:gap-4">
-          <button className="text-purple-600 bg-purple-50 px-5 py-3 hover:bg-purple-900  hover:text-white border border-[#ECEBFF] rounded-lg">
-            Client Access
-          </button>
           <Link
             href="/auth/signup"
             className="rounded-lg shadow shadow-xs bg-purple-900 text-white px-5 py-3 hover:bg-white hover:border hover:border-purple-900/50 hover:text-purple-600"
@@ -53,7 +50,7 @@ export const Nav = () => {
         ))}
       </div>
       <div className="bg-purple-50 text-center py-4">
-        <Link href="#">Looking for a new career? Get in touch</Link>
+        <Link href="/auth/signup">Looking for a new career? Get in touch</Link>
       </div>
     </nav>
   );
