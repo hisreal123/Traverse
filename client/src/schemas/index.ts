@@ -7,3 +7,11 @@ export const LoginSchema = z.object({
     message: "Password is required",
   }),
 });
+
+export const createProjectSchema = z.object({
+  name: z.string().min(3),
+  summary: z.string().min(10),
+  objective: z.string(),
+  currentPhase: z.string(),
+  // currentStatus: z.array(),
+});

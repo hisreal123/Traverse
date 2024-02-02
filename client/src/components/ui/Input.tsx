@@ -8,6 +8,7 @@ function Input(props: {
   state?: string;
   disabled?: boolean;
   type?: string;
+  value?: string;
   onChange?: any;
 }) {
   const {
@@ -20,6 +21,7 @@ function Input(props: {
     state,
     disabled,
     onChange,
+    value,
   } = props;
 
   return (
@@ -38,6 +40,7 @@ function Input(props: {
         type={type}
         id={id}
         placeholder={placeholder}
+        value={value}
         className={`mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none ${
           disabled === true
             ? "!border-none !bg-gray-100 dark:!bg-white/5 dark:placeholder:!text-[rgba(255,255,255,0.15)]"

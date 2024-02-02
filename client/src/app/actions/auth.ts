@@ -1,4 +1,5 @@
 "use server";
+import Calls from "@/authinstance";
 
 import { LoginSchema } from "@/schemas";
 import * as z from "zod";
@@ -11,6 +12,8 @@ import { UserDetails } from "@/types";
 
 const BaseUrl =
   process.env.AUTH_BASEURL ?? "https://traverse-pgpw.onrender.com/api/v1/auth/";
+
+  const $http = Calls(BaseUrl);
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const cookie = cookies();
@@ -94,5 +97,34 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return {
       error: "Something went wrong.",
     };
+  }
+};
+
+export const activateUser = async (licence: string) => {
+  try {
+    const res = await $http.post("/activate", { licence });
+
+    if (res.status === 201) {
+      console.log("Activation successful");
+      console.log("Activation response", res);
+      return { success: "User activated successfully" };
+    } else {
+      throw new Error("Unexpected response from server");
+    }
+  } catch (e: any) {
+    console.log("Activate call error from API call", e);
+    if (e?.response?.status === 401) {
+      return { error: "Unauthorized. Invalid license." };
+    } else if (e?.response?.status === 404) {
+      return { error: "Unable to activate. License not found." };
+    } else if (e?.response?.status === 500) {
+      return { error: "Internal server error" };
+    } else {
+      return {
+        error:
+          e?.response?.data ??
+          "Unknown error occurred. Please try again later.",
+      };
+    }
   }
 };

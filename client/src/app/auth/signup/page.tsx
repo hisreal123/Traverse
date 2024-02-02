@@ -2,6 +2,7 @@ import React from "react";
 import SignUpForm from "./SignUpForm";
 import Image from "next/image";
 import { Toaster } from "react-hot-toast";
+import OTPModal from "@/components/modals/VerifyModal";
 import AllAuthRightSection from "@/components/auth";
 
 const page = () => {
@@ -31,6 +32,8 @@ const page = () => {
           <AllAuthRightSection />
         </div>
       </div>
+
+      <OTPModal />
     </>
   );
 };

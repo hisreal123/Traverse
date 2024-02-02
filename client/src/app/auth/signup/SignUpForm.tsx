@@ -4,7 +4,9 @@ import { registrationSchema } from "@/utils/registerSchema";
 import Link from "next/link";
 import React from "react";
 import { ZodError } from "zod";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { useStateCtx } from "@/context/StateCtx";
+import OTPModal from "@/components/modals/VerifyModal";
 import { redirect } from "next/navigation";
 
 const SignUpForm: React.FC = () => {
@@ -14,6 +16,7 @@ const SignUpForm: React.FC = () => {
   const [website, setWebsite] = React.useState<String>("");
   const [password, setPassword] = React.useState<String>("");
   const [confirmPassword, setConfirmPassword] = React.useState<String>("");
+  const { setOTPModal } = useStateCtx();
 
   const handleSubmitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +47,8 @@ const SignUpForm: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        toast.success("Registration Sucessfull");
+        toast.success("Registration Sucessfull: ");
+        setOTPModal(true);
         setName(" ");
         setEmail(" ");
         setCompanyName(" ");

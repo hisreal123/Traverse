@@ -8,7 +8,6 @@ import {
   SetStateAction,
   useEffect,
   useMemo,
-  useLayoutEffect,
 } from "react";
 
 export type User = {
@@ -26,8 +25,10 @@ interface StateContextProps {
   openTrendmenu: boolean;
   swipeIndicator: boolean;
   setSwipeIndicator: React.Dispatch<React.SetStateAction<boolean>>;
-  viewDocModal: boolean;
-  setViewDocModal: React.Dispatch<React.SetStateAction<boolean>>;
+  VerifyModal: boolean;
+  setVerifyModal: React.Dispatch<React.SetStateAction<boolean>>;
+  OTPModal: boolean;
+  setOTPModal: React.Dispatch<React.SetStateAction<boolean>>;
   openSearchBox: boolean;
   setOpenSearchBox: React.Dispatch<React.SetStateAction<boolean>>;
   showDate: boolean;
@@ -43,21 +44,22 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [openTrendmenu, setOpenTrendmenu] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  // Miscellaneous
   const [handleSwipe, setHandleSwipe] = useState<number | null>(null);
   const [swipeIndicator, setSwipeIndicator] = useState(false);
-  const [viewDocModal, setViewDocModal] = useState(false);
+  const [VerifyModal, setVerifyModal] = useState(false);
+  const [OTPModal, setOTPModal] = useState(false);
   const [openSearchBox, setOpenSearchBox] = useState(false);
   const [showDate, setShowDate] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
 
   // Track Modal state
   const isAnyModalOpen =
-    viewDocModal ||
+    VerifyModal ||
     showDate ||
     openSearchBox ||
     openTrendmenu ||
-    showNotification;
+    showNotification ||
+    OTPModal;
 
   // Today's data
   const todayDate = new Date().toLocaleDateString("en", {
@@ -147,6 +149,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
     () => ({
       openSidebar,
       setOpenSidebar,
+      OTPModal,
+      setOTPModal,
       searchTerm,
       setSearchTerm,
       user,
@@ -154,8 +158,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       setOpenTrendmenu,
       swipeIndicator,
       setSwipeIndicator,
-      viewDocModal,
-      setViewDocModal,
+      VerifyModal,
+      setVerifyModal,
       openSearchBox,
       setOpenSearchBox,
       showDate,
@@ -170,7 +174,8 @@ const StateCtxProvider = ({ children }: { children: React.ReactNode }) => {
       openTrendmenu,
       user,
       swipeIndicator,
-      viewDocModal,
+      VerifyModal,
+      OTPModal,
       openSearchBox,
       showDate,
       showNotification,

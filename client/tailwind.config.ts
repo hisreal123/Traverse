@@ -22,6 +22,15 @@ const config: Config = {
         "soft-border": "#ebecf2",
         "soft-bg": "#f7f8fa",
         "trend-down": "#ed544e",
+
+        purple: {
+          50: "#ECEBFF",
+          600: "#574EFA",
+          900: "#33059F",
+          950: "#1B0354",
+        },
+        sh: "rgba(16,24,40,0.05)",
+        neutraly: "#6B7B8F",
         destructive: "#f81d28",
       },
       keyframes: {
